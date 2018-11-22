@@ -2,10 +2,13 @@
 
 Hello! 
 
-We will create a simple page with reddit listings that include the thumbnail and the title. 
+This is a simple page with reddit listings using a reddit API 
+
+Each post includes the thumbnail (if image is provided) and the title. 
 
 The list is paginated.
 
-Clicking on one row will take you to another view where you can see the comments for that listing. 
+Clicking on one row will take you to the comments for that post. 
 
-Lets Start
+To open page, copy html file and open with preferred browser. 
+

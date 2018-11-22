@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reddit!</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  </head>
+  <body>
+    <h1>Reddit Listings</h1>
+      <div id="listing"></div>
+      <ul id="pagin"></ul>
+  </body>
+ 
+<script>
+(function() {
+  var redditAPI = "https://www.reddit.com/r/subreddit/new.json?sort=new";
+  $.getJSON( redditAPI, function( json ) {
+  })
+    .done(function( json ) {
+      $.each( json.data.children, function( i, child ) {
+	if (child.data.title.length != 0) {
+        if (child.data.thumbnail != "self"){
+            $( "<div class='post' id='title" + i +"'>" ).append($('<img>',{id:'theImg',src:child.data.thumbnail})).append( child.data.title ).appendTo( "#listing" );
+        } else {
+            $( "<div class='post' id='title" + i +"'>" ).append( child.data.title ).appendTo( "#listing" );
+        }
+	}
+// Takes user to post's comments       
+  $("#title" + i).on("click", function(){ 
+         window.location.href = child.data.url;
+        });
+      });
+//Pagination
+	pageSize = 5;
+
+	var pageCount =  $(".post").length / pageSize;
+    console.log('Hello' + pageCount);
+     for(var i = 0 ; i<pageCount;i++){
+        
+       $("#pagin").append('<li><a href="#">'+(i+1)+'</a></li> ');
+     }
+        $("#pagin li").first().find("a").addClass("current")
+    showPage = function(page) {
+	    $(".post").hide();
+	    $(".post").each(function(n) {
+	        if (n >= pageSize * (page - 1) && n < pageSize * page)
+	            $(this).show();
+	    });        
+	}
+    
+	showPage(1);
+
+	$("#pagin li a").click(function() {
+	    $("#pagin li a").removeClass("current");
+	    $(this).addClass("current");
+	    showPage(parseInt($(this).text())) 
+	});
+});  
+    
+})();
+</script>
+<style>
+.post {
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+}
+    
+.current {
+  color: green;
+}
+
+#pagin li {
+  display: inline-block;
+}
+</style>
+</html>
